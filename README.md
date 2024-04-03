@@ -1,4 +1,4 @@
-ASP.NET MCV web application builtd with .NET 8.0
+ASP.NET MVC web application built with .NET 8.0
 
 1st iteration :
 
@@ -7,7 +7,8 @@ ASP.NET MCV web application builtd with .NET 8.0
 - search books by title and author
 - data validation through Model data annotation
 
-2nd iteration: Books are retrieved from a .NET Web API and displayed on the front end
+2nd iteration (WIP):
+Books are retrieved from a .NET Web API and displayed on the front end
 
 Deployment and hosting
 
