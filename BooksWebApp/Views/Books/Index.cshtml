@@ -13,6 +13,7 @@
 <table class="table">
     <thead class="thead-dark">
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -21,9 +22,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Url)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Genre)
@@ -40,20 +38,19 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                <img  src="@item.CoverUrl"  alt="@item.Title" style="max-width:100px;max-height:150px;">
+            </td>
+            <td>
+                <a href="@item.Url">@item.Title</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Author)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a href=@(item.Url)>View on Goodreads</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Genre)

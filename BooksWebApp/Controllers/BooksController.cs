@@ -12,10 +12,12 @@ namespace BooksWebApp.Controllers
     public class BooksController : Controller
     {
         private readonly MvcBookContext _context;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public BooksController(MvcBookContext context)
+        public BooksController(MvcBookContext context, IHttpClientFactory httpClientFactory)
         {
             _context = context;
+            _httpClientFactory = httpClientFactory;
         }
 
         // GET: Books

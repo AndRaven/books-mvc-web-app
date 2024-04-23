@@ -20,9 +20,24 @@ builder.Services.AddDbContext<MvcBookContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Configure the HTTP request pipeline
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHttpClient<IBookService, BookService>();
+
+builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<IBookService, BookService>();
+
+//add HTTO Client to invoke Books.API
+builder.Services.AddHttpClient("BooksAPI", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("BooksAPI:BaseAddress") ??
+                                throw new InvalidOperationException("BooksAPI:BaseAddress configuration not found."));
+});
+
 var app = builder.Build();
 
-using ( var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
