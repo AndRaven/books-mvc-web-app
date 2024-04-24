@@ -1,5 +1,5 @@
 
-using static Utils;
+using static Utilities;
 
 public class RequestDto
 {

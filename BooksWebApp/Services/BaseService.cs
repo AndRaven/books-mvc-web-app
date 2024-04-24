@@ -2,8 +2,8 @@
 
 
 using System.Net;
+using System.Text.Json;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Newtonsoft.Json;
 
 public class BaseService : IBaseService
 {
@@ -19,7 +19,7 @@ public class BaseService : IBaseService
         try
         {
             //create HTTP client
-            var httpClient = _httpClientFactory.CreateClient();
+            var httpClient = _httpClientFactory.CreateClient("BooksAPI");
 
 
             //create HTTP request
@@ -27,20 +27,21 @@ public class BaseService : IBaseService
             message.Headers.Add("Accept", "application/json");
             message.RequestUri = new Uri(requestDto.Url);
 
+
             //set HTTP method
             switch (requestDto.RequestType)
             {
-                case Utils.RequestType.POST: message.Method = HttpMethod.Post; break;
-                case Utils.RequestType.PUT: message.Method = HttpMethod.Put; break;
-                case Utils.RequestType.PATCH: message.Method = new HttpMethod("PATCH"); break;
-                case Utils.RequestType.DELETE: message.Method = HttpMethod.Delete; break;
+                case Utilities.RequestType.POST: message.Method = HttpMethod.Post; break;
+                case Utilities.RequestType.PUT: message.Method = HttpMethod.Put; break;
+                case Utilities.RequestType.PATCH: message.Method = new HttpMethod("PATCH"); break;
+                case Utilities.RequestType.DELETE: message.Method = HttpMethod.Delete; break;
                 default: message.Method = HttpMethod.Get; break;
             }
 
             //set HTTP request body if required
             if (requestDto.Data != null)
             {
-                string json = JsonConvert.SerializeObject(requestDto.Data);
+                string json = JsonSerializer.Serialize(requestDto.Data);
 
                 //StringContent used to create the content for the HTTP request
                 message.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
@@ -69,7 +70,7 @@ public class BaseService : IBaseService
 
                 default:
                     var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                    var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                    var apiResponseDto = JsonSerializer.Deserialize<ResponseDto>(apiContent);
 
                     return apiResponseDto;
             }

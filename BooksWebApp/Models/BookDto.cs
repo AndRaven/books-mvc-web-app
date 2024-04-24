@@ -10,7 +10,7 @@ public class BookDto
 
     public string? Url { get; set; }
 
-    public string CoverUrl { get; set; }
+    //public string CoverUrl { get; set; }
 
     public string? Genre { get; set; }
 

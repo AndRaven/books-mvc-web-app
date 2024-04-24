@@ -1,3 +1,4 @@
+
 public class BookService : IBookService
 {
     private readonly IBaseService _baseService;
@@ -16,8 +17,8 @@ public class BookService : IBookService
     {
         var requestDto = new RequestDto
         {
-            RequestType = Utils.RequestType.GET,
-            Url = "/api/books"
+            RequestType = Utilities.RequestType.GET,
+            Url = Utilities.BooksAPIBaseAddress + ("/books")
         };
 
         return await _baseService.SendAsync(requestDto);

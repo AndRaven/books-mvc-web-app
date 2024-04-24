@@ -6,24 +6,41 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BooksWebApp.Data;
+using System.Text.Json;
 
 namespace BooksWebApp.Controllers
 {
     public class BooksController : Controller
     {
         private readonly MvcBookContext _context;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IBookService _bookService;
 
-        public BooksController(MvcBookContext context, IHttpClientFactory httpClientFactory)
+        public BooksController(MvcBookContext context, IBookService bookService)
         {
             _context = context;
-            _httpClientFactory = httpClientFactory;
+            _bookService = bookService;
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Book.ToListAsync());
+            //return View(await _context.Book.ToListAsync());
+            var response = await _bookService.GetAllBooksAsync();
+
+            List<BookDto> books = new List<BookDto>();
+
+            if (response != null && response.Result != null && response.IsSuccess)
+            {
+                books = JsonSerializer.Deserialize<List<BookDto>>(Convert.ToString(response.Result));
+            }
+            else
+            {
+                TempData["ErrorMessage"] = response.Message ?? "Error occured while fetching books.";
+            }
+
+            return View(books);
+
+
         }
 
         // GET: Books/Details/5
